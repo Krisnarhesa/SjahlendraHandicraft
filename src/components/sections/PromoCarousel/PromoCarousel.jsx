@@ -46,23 +46,46 @@ const PromoCarousel = () => {
   }, []);
 
   // Auto-scroll logic
+  // Auto-scroll logic and infinite scroll setup
   useEffect(() => {
-    if (products.length <= 3) return;
+    if (products.length <= 1) return;
+    
+    // Initial jump to the middle set so we can scroll both ways infinitely
+    if (sliderRef.current) {
+      setTimeout(() => {
+        if (sliderRef.current) {
+          sliderRef.current.style.scrollBehavior = "auto";
+          sliderRef.current.scrollLeft = sliderRef.current.scrollWidth / 3;
+          sliderRef.current.style.scrollBehavior = "smooth";
+        }
+      }, 100);
+    }
     
     const interval = setInterval(() => {
       if (sliderRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-        // If reached the end (with a small 10px buffer), scroll back to start
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          sliderRef.current.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          sliderRef.current.scrollBy({ left: 300, behavior: "smooth" }); // Scroll by roughly one item
-        }
+        sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
       }
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [products.length]);
+  }, [products]);
+
+  const handleScroll = () => {
+    if (!sliderRef.current || products.length <= 1) return;
+    const { scrollLeft, scrollWidth } = sliderRef.current;
+    const third = scrollWidth / 3;
+
+    // Jump seamlessly to keep the scroll position in the middle set
+    if (scrollLeft <= third / 2) {
+      sliderRef.current.style.scrollBehavior = "auto";
+      sliderRef.current.scrollLeft += third;
+      sliderRef.current.style.scrollBehavior = "smooth";
+    } else if (scrollLeft >= third * 2.5) {
+      sliderRef.current.style.scrollBehavior = "auto";
+      sliderRef.current.scrollLeft -= third;
+      sliderRef.current.style.scrollBehavior = "smooth";
+    }
+  };
 
   const scroll = (direction) => {
     if (sliderRef.current) {
@@ -77,11 +100,13 @@ const PromoCarousel = () => {
 
   if (loading || products.length === 0) return null;
 
+  const displayProducts = products.length > 1 ? [...products, ...products, ...products] : products;
+
   return (
     <div className="promo-carousel-container">
       {headline && <h2 className="promo-carousel-headline">{headline}</h2>}
       
-      {products.length > 3 && (
+      {products.length > 1 && (
         <button
           className="promo-arrow promo-left"
           onClick={() => scroll("left")}
@@ -91,9 +116,9 @@ const PromoCarousel = () => {
         </button>
       )}
 
-      <div className="promo-slider" ref={sliderRef}>
-        {products.map((product) => (
-          <div key={product.id} className="promo-item-wrapper">
+      <div className="promo-slider" ref={sliderRef} onScroll={handleScroll}>
+        {displayProducts.map((product, idx) => (
+          <div key={`${product.id}-${idx}`} className="promo-item-wrapper">
             <Link
               to={`/product/${encodeURIComponent(product.name)}`}
               className="promo-circle-link"
@@ -112,7 +137,7 @@ const PromoCarousel = () => {
         ))}
       </div>
 
-      {products.length > 3 && (
+      {products.length > 1 && (
         <button
           className="promo-arrow promo-right"
           onClick={() => scroll("right")}
