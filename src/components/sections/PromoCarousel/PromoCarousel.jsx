@@ -86,13 +86,13 @@ const PromoCarousel = () => {
       const third = scrollWidth / 3;
 
       // Jump seamlessly to keep the scroll position in the middle set
-      if (scrollLeft <= third / 2) {
+      if (scrollLeft <= third * 0.1) {
         sliderRef.current.style.scrollBehavior = "auto";
         sliderRef.current.scrollLeft += third;
         setTimeout(() => {
           if (sliderRef.current) sliderRef.current.style.scrollBehavior = "smooth";
         }, 50);
-      } else if (scrollLeft >= third * 2.5) {
+      } else if (scrollLeft >= third * 1.9) {
         sliderRef.current.style.scrollBehavior = "auto";
         sliderRef.current.scrollLeft -= third;
         setTimeout(() => {
