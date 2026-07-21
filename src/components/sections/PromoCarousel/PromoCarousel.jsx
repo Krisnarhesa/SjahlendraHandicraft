@@ -72,6 +72,7 @@ const PromoCarousel = () => {
                   decoding="async"
                 />
               </div>
+              <h3 className="promo-product-name">{product.name}</h3>
             </Link>
           </div>
         ))}

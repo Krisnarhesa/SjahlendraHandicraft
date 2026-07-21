@@ -44,6 +44,7 @@
   display: block;
   text-decoration: none;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
 }
 
 .promo-circle-link:hover {
@@ -53,6 +54,8 @@
 .promo-circle {
   width: 250px;
   height: 250px;
+  flex-shrink: 0;
+  margin: 0 auto;
   border-radius: 50%;
   background-color: #ffffff;
   overflow: hidden;
@@ -74,6 +77,20 @@
   height: 100%;
   object-fit: contain; /* ensures the whole product is visible in the circle */
   padding: 15px; /* some breathing room so it doesn't touch the edge */
+}
+
+.promo-product-name {
+  margin-top: 15px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: color 0.3s ease;
+}
+
+.promo-circle-link:hover .promo-product-name {
+  color: #e0e0e0;
 }
 
 /* Arrows */
