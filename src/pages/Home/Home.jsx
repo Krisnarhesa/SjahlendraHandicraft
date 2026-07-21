@@ -95,7 +95,7 @@ const Home = () => {
       </section>
 
       {/* Promo Banner Carousel */}
-      <section className="container section-promo">
+      <section className="section-promo">
         <PromoCarousel />
       </section>
 

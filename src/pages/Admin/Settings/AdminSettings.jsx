@@ -11,6 +11,7 @@ const AdminSettings = () => {
     phone: '',
     hide_price: false,
     hide_stock: false,
+    promo_headline: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -139,8 +140,22 @@ const AdminSettings = () => {
             type="text"
             value={settings.phone}
             onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder="+62 813-1666-3377"
+            placeholder="e.g. +62 812 3456 7890"
           />
+        </div>
+      </div>
+
+      <div className="content-section">
+        <h2>Promo Banner Settings</h2>
+        <div className="form-group">
+          <label>Promo Headline</label>
+          <input
+            type="text"
+            value={settings.promo_headline || ''}
+            onChange={(e) => handleChange('promo_headline', e.target.value)}
+            placeholder="e.g. Special Promo, New Arrival, Trending"
+          />
+          <small className="help-text">This text will appear above the circular products on the Home page.</small>
         </div>
       </div>
 

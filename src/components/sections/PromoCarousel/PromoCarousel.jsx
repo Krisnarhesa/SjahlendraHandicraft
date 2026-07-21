@@ -6,6 +6,7 @@ import "./PromoCarousel.css";
 
 const PromoCarousel = () => {
   const [products, setProducts] = useState([]);
+  const [headline, setHeadline] = useState("");
   const [loading, setLoading] = useState(true);
   const sliderRef = useRef(null);
 
@@ -29,8 +30,39 @@ const PromoCarousel = () => {
       }
     };
 
+    const fetchHeadline = async () => {
+      try {
+        const { data } = await supabase.from("site_settings").select("value").eq("key", "promo_headline").maybeSingle();
+        if (data && data.value) {
+          setHeadline(data.value);
+        }
+      } catch (err) {
+        console.error("Error fetching promo headline:", err);
+      }
+    };
+
     fetchPromoProducts();
+    fetchHeadline();
   }, []);
+
+  // Auto-scroll logic
+  useEffect(() => {
+    if (products.length <= 3) return;
+    
+    const interval = setInterval(() => {
+      if (sliderRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+        // If reached the end (with a small 10px buffer), scroll back to start
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          sliderRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          sliderRef.current.scrollBy({ left: 300, behavior: "smooth" }); // Scroll by roughly one item
+        }
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [products.length]);
 
   const scroll = (direction) => {
     if (sliderRef.current) {
@@ -47,6 +79,8 @@ const PromoCarousel = () => {
 
   return (
     <div className="promo-carousel-container">
+      {headline && <h2 className="promo-carousel-headline">{headline}</h2>}
+      
       {products.length > 3 && (
         <button
           className="promo-arrow promo-left"
