@@ -172,12 +172,12 @@ const ProductForm = () => {
       }
 
       const productData = {
-        name: form.name,
-        code: form.code,
-        description: form.description,
-        category: form.category,
-        main_category: form.main_category,
-        sub_category: form.sub_category,
+        name: form.name?.trim(),
+        code: form.code?.trim(),
+        description: form.description?.trim(),
+        category: form.category?.trim(),
+        main_category: form.main_category?.trim(),
+        sub_category: form.sub_category?.trim(),
         price: form.price !== '' ? parseInt(form.price) : null,
         brand: form.brand,
         is_best_seller: form.is_best_seller,

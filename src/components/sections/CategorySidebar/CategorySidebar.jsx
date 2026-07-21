@@ -24,14 +24,14 @@ const CategorySidebar = ({ activeCategory, onSelectCategory }) => {
             // Build hierarchy from products
             const tree = {};
             (products || []).forEach(p => {
-                const main = p.main_category;
+                const main = p.main_category?.trim();
                 if (!main) return;
 
                 if (!tree[main]) {
                     tree[main] = new Set();
                 }
                 if (p.sub_category) {
-                    tree[main].add(p.sub_category);
+                    tree[main].add(p.sub_category.trim());
                 }
             });
 

@@ -92,6 +92,11 @@ const AdminLogin = () => {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
+            <div className="forgot-password-link">
+              <a href="/sj-manage/forgot-password" onClick={(e) => { e.preventDefault(); navigate('/sj-manage/forgot-password'); }}>
+                Forgot Password?
+              </a>
+            </div>
           </div>
 
           <button type="submit" className="login-btn" disabled={loading}>

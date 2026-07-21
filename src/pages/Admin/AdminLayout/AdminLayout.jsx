@@ -8,6 +8,7 @@ import {
     MessageSquare,
     Package,
     Settings,
+    Users,
     X
 } from 'lucide-react';
 import { useState } from 'react';
@@ -38,6 +39,7 @@ const AdminLayout = () => {
     { path: '/sj-manage/contact', icon: MessageSquare, label: 'Contact Page' },
     { path: '/sj-manage/faqs', icon: HelpCircle, label: 'FAQs' },
     { path: '/sj-manage/settings', icon: Settings, label: 'Settings' },
+    { path: '/sj-manage/admins', icon: Users, label: 'Manage Admins' },
   ];
 
   return (

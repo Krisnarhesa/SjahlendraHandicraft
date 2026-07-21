@@ -26,7 +26,7 @@
   gap: 8px;
   padding: 10px 20px;
   background: linear-gradient(135deg, #e2b04a, #c49a3c);
-  color: #1a1a2e;
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -45,7 +45,7 @@
 .save-btn .spinner {
   width: 16px; height: 16px;
   border: 2px solid transparent;
-  border-top-color: #1a1a2e;
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   display: inline-block;

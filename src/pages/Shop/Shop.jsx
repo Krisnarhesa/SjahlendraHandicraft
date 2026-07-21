@@ -56,8 +56,8 @@ const Shop = () => {
         if (activeCategory !== "All") {
             // Check if activeCategory matches main_category OR sub_category
             result = result.filter(p =>
-                p.main_category === activeCategory ||
-                p.sub_category === activeCategory
+                p.main_category?.trim() === activeCategory ||
+                p.sub_category?.trim() === activeCategory
             );
         }
 
@@ -93,8 +93,8 @@ const Shop = () => {
 
         if (activeCategory !== "All") {
             result = result.filter(p =>
-                p.main_category === activeCategory ||
-                p.sub_category === activeCategory
+                p.main_category?.trim() === activeCategory ||
+                p.sub_category?.trim() === activeCategory
             );
         }
         return result;

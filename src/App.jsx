@@ -27,6 +27,9 @@ import AdminFAQs from "./pages/Admin/FAQs/AdminFAQs";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import ProductForm from "./pages/Admin/Products/ProductForm";
 import AdminSettings from "./pages/Admin/Settings/AdminSettings";
+import AdminAdmins from "./pages/Admin/Admins/AdminAdmins";
+import AdminForgotPassword from "./pages/Admin/AdminLogin/AdminForgotPassword";
+import AdminResetPassword from "./pages/Admin/AdminLogin/AdminResetPassword";
 
 import NotFound from "./pages/NotFound/NotFound";
 
@@ -118,6 +121,7 @@ function App() {
               <Route path="contact" element={<AdminContact />} />
               <Route path="faqs" element={<AdminFAQs />} />
               <Route path="settings" element={<AdminSettings />} />
+              <Route path="admins" element={<AdminAdmins />} />
             </Route>
 
             {/* Catch-all */}
