@@ -112,10 +112,9 @@ const Carousel = () => {
                   src="/logo.png"
                   alt="Sjahlendra Logo"
                   className="carousel-logo-overlay"
-                  width="80"
                   height="80"
                   fetchpriority="high"
-                  style={{ marginBottom: "20px", display: "block" }}
+                  style={{ marginBottom: "20px", display: "block", width: "auto" }}
                 />
               )}
               <span className="carousel-subtitle">{slide.subtitle}</span>
