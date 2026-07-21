@@ -1,128 +1,90 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../../lib/supabaseClient";
 import "./PromoCarousel.css";
 
-const fallbackSlides = [
-  {
-    id: 1,
-    image_url: "/promo/banner1.png",
-    title: "Summer Sale",
-    subtitle: "Up to 50% Off on Selected Items",
-    link: "/products",
-    category: "FASHION",
-  },
-  {
-    id: 2,
-    image_url: "/promo/banner2.png",
-    title: "New Collection",
-    subtitle: "Sustainable Furniture for Modern Homes",
-    link: "/products",
-    category: "FURNITURE",
-  },
-];
-
 const PromoCarousel = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  // Start with fallback immediately — no skeleton flash, no layout shift
-  const [slides, setSlides] = useState(fallbackSlides);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const sliderRef = useRef(null);
 
-  // Fetch from Supabase in the background and swap in if data differs
   useEffect(() => {
-    const fetchSlides = async () => {
+    const fetchPromoProducts = async () => {
       try {
         const { data, error } = await supabase
-          .from("carousel_slides")
+          .from("products")
           .select("*")
-          .eq("type", "promo")
-          .eq("is_active", true)
-          .order("sort_order", { ascending: true });
+          .eq("is_promo", true)
+          .eq("is_hidden", false)
+          .order("created_at", { ascending: false });
 
-        if (!error && data && data.length > 0) {
-          setSlides(data);
+        if (!error && data) {
+          setProducts(data);
         }
-      } catch {
-        // Keep showing fallback slides — no action needed
+      } catch (err) {
+        console.error("Error fetching promo products:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchSlides();
+    fetchPromoProducts();
   }, []);
 
-  // Auto-advance
-  useEffect(() => {
-    if (slides.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [slides.length]);
+  const scroll = (direction) => {
+    if (sliderRef.current) {
+      const scrollAmount = sliderRef.current.clientWidth;
+      if (direction === "left") {
+        sliderRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+  };
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  if (loading || products.length === 0) return null;
 
   return (
-    <div className="promo-carousel">
-      <div
-        className="promo-slides"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {slides.map((slide) => (
-          <div key={slide.id} className="promo-slide">
-            <img
-              src={slide.image_url}
-              alt={slide.title}
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src =
-                  "https://placehold.co/800x400/f0f0f0/999?text=Promo+Image";
-              }}
-            />
-            <div className="promo-content">
-              <h2>{slide.title}</h2>
-              <p>{slide.subtitle}</p>
-              <Link
-                to={slide.link || "/products"}
-                state={{ category: slide.category }}
-                className="promo-btn"
-              >
-                {slide.link_label || "Shop Now"}
-              </Link>
-            </div>
+    <div className="promo-carousel-container">
+      {products.length > 3 && (
+        <button
+          className="promo-arrow promo-left"
+          onClick={() => scroll("left")}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={32} />
+        </button>
+      )}
+
+      <div className="promo-slider" ref={sliderRef}>
+        {products.map((product) => (
+          <div key={product.id} className="promo-item-wrapper">
+            <Link
+              to={`/product/${encodeURIComponent(product.name)}`}
+              className="promo-circle-link"
+            >
+              <div className="promo-circle">
+                <img
+                  src={product.image_url || 'https://placehold.co/400x400/f0f0f0/999?text=No+Image'}
+                  alt={product.name}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </Link>
           </div>
         ))}
       </div>
 
-      <button
-        className="promo-arrow promo-left"
-        onClick={prevSlide}
-        aria-label="Previous Slide"
-      >
-        <ChevronLeft size={32} />
-      </button>
-      <button
-        className="promo-arrow promo-right"
-        onClick={nextSlide}
-        aria-label="Next Slide"
-      >
-        <ChevronRight size={32} />
-      </button>
-
-      {slides.length > 1 && (
-        <div className="promo-dots">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              className={`promo-dot${currentSlide === i ? " active" : ""}`}
-              onClick={() => setCurrentSlide(i)}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
+      {products.length > 3 && (
+        <button
+          className="promo-arrow promo-right"
+          onClick={() => scroll("right")}
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={32} />
+        </button>
       )}
     </div>
   );

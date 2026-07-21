@@ -244,9 +244,6 @@ const AdminCarousel = () => {
         <button className={`tab ${activeTab === 'hero' ? 'active' : ''}`} onClick={() => setActiveTab('hero')}>
           Hero Slides ({slides.filter(s => s.type === 'hero').length})
         </button>
-        <button className={`tab ${activeTab === 'promo' ? 'active' : ''}`} onClick={() => setActiveTab('promo')}>
-          Promo Banners ({slides.filter(s => s.type === 'promo').length})
-        </button>
         <button className={`tab ${activeTab === 'mid_banner' ? 'active' : ''}`} onClick={() => setActiveTab('mid_banner')}>
           Mid Banner ({slides.filter(s => s.type === 'mid_banner').length})
         </button>

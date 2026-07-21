@@ -23,6 +23,7 @@ const ProductForm = () => {
     image_url: '',
     stock: '',
     is_hidden: false,
+    is_promo: false,
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -76,6 +77,7 @@ const ProductForm = () => {
           image_url: data.image_url || '',
           stock: data.stock !== null ? data.stock : '',
           is_hidden: data.is_hidden || false,
+          is_promo: data.is_promo || false,
         });
         setImagePreview(data.image_url || '');
       }
@@ -184,6 +186,7 @@ const ProductForm = () => {
         image_url: imageUrl,
         stock: form.stock !== '' ? parseInt(form.stock) : null,
         is_hidden: form.is_hidden,
+        is_promo: form.is_promo,
       };
 
       if (isEditing) {
@@ -373,6 +376,19 @@ const ProductForm = () => {
                 />
                 <span className="checkmark"></span>
                 Hide Product (Out of Stock / Temporary Unavailable)
+              </label>
+            </div>
+
+            <div className="form-group checkbox-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="is_promo"
+                  checked={form.is_promo}
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+                Show on Promo Banner (Home Page)
               </label>
             </div>
           </div>
