@@ -23,6 +23,7 @@ import "./Home.css";
 const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
+  const [midBanner, setMidBanner] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -64,6 +65,21 @@ const Home = () => {
       } else {
         setTrendingProducts(trendData || []);
       }
+
+      // Fetch mid banner
+      const { data: bannerData } = await supabase
+        .from("carousel_slides")
+        .select("*")
+        .eq("type", "mid_banner")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      
+      if (bannerData) {
+        setMidBanner(bannerData);
+      }
+
     } catch (error) {
       console.error("Error fetching home products:", error);
     } finally {
@@ -101,17 +117,33 @@ const Home = () => {
       {/* Static Promo Banner */}
       <section className="section container text-center">
         <div className="static-promo">
-          <img
-            src="/promo/mid-banner.png"
-            alt="Handcrafted Perfection"
-            style={{
-              borderRadius: "8px",
-              width: "100%",
-              aspectRatio: "3 / 1",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
+          {midBanner?.link ? (
+            <a href={midBanner.link} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
+              <img
+                src={midBanner.image_url}
+                alt={midBanner.title || "Promo Banner"}
+                style={{
+                  borderRadius: "8px",
+                  width: "100%",
+                  aspectRatio: "3 / 1",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            </a>
+          ) : (
+            <img
+              src={midBanner?.image_url || "/promo/mid-banner.png"}
+              alt={midBanner?.title || "Handcrafted Perfection"}
+              style={{
+                borderRadius: "8px",
+                width: "100%",
+                aspectRatio: "3 / 1",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+          )}
         </div>
       </section>
 

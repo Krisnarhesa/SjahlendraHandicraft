@@ -247,6 +247,9 @@ const AdminCarousel = () => {
         <button className={`tab ${activeTab === 'promo' ? 'active' : ''}`} onClick={() => setActiveTab('promo')}>
           Promo Banners ({slides.filter(s => s.type === 'promo').length})
         </button>
+        <button className={`tab ${activeTab === 'mid_banner' ? 'active' : ''}`} onClick={() => setActiveTab('mid_banner')}>
+          Mid Banner ({slides.filter(s => s.type === 'mid_banner').length})
+        </button>
       </div>
 
       {/* Add/Edit Form */}
@@ -267,7 +270,7 @@ const AdminCarousel = () => {
                   <label>Subtitle</label>
                   <input type="text" name="subtitle" value={form.subtitle} onChange={handleChange} placeholder="Subtitle text" />
                 </div>
-                {activeTab === 'hero' && (
+                {(activeTab === 'hero' || activeTab === 'mid_banner') && (
                   <div className="form-group">
                     <label>Description</label>
                     <textarea name="description" value={form.description} onChange={handleChange} placeholder="Brief description" rows="2" />
