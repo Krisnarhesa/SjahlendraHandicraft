@@ -100,6 +100,8 @@ function App() {
 
             {/* Admin Login (no layout) */}
             <Route path="/sj-manage/login" element={<AdminLogin />} />
+            <Route path="/sj-manage/forgot-password" element={<AdminForgotPassword />} />
+            <Route path="/sj-manage/reset-password" element={<AdminResetPassword />} />
 
             {/* Admin Protected Routes */}
             <Route
