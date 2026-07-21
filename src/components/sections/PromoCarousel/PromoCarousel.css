@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 8px; /* Optional, matches other sections if placed in container */
+  border-radius: 0; /* Full width shouldn't be rounded */
 }
 
 /* Ensure section has no padding if we want it full width, or keep it rounded */
@@ -36,7 +36,11 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
-  padding: 10px;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .promo-slider::-webkit-scrollbar {
@@ -140,11 +144,16 @@
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   .promo-carousel-container {
-    padding: 40px 10px;
+    padding: 40px 0;
+  }
+  
+  .promo-slider {
+    padding: 10px 7.5vw;
+    gap: 20px;
   }
   
   .promo-item-wrapper {
-    flex: 0 0 70%;
+    flex: 0 0 85vw;
   }
   
   .promo-circle {
@@ -153,10 +162,11 @@
   }
   
   .promo-left {
-    left: 5px;
+    left: 10px;
   }
   
   .promo-right {
-    right: 5px;
+    right: 10px;
   }
 }
+
