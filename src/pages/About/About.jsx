@@ -117,8 +117,8 @@ const About = () => {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
                         <div className="store-image-container" style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
                             <img 
-                                src="/about/store-front.jpg" 
-                                alt="Sjahlendra Handicraft Store Front" 
+                                src="/about/store-front.jpeg" 
+                                alt="Sjahlendra Handicraft Store Front"  
                                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
                             />
                         </div>
