@@ -115,13 +115,27 @@ const Home = () => {
       <CategoryGrid />
 
       {/* Static Promo Banner */}
-      <section className="section container text-center">
-        <div className="static-promo">
-          {midBanner?.link ? (
-            <a href={midBanner.link} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
+      {midBanner && (
+        <section className="section container text-center">
+          <div className="static-promo">
+            {midBanner.link ? (
+              <a href={midBanner.link} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
+                <img
+                  src={midBanner.image_url}
+                  alt={midBanner.title || "Promo Banner"}
+                  style={{
+                    borderRadius: "8px",
+                    width: "100%",
+                    aspectRatio: "3 / 1",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </a>
+            ) : (
               <img
                 src={midBanner.image_url}
-                alt={midBanner.title || "Promo Banner"}
+                alt={midBanner.title || "Handcrafted Perfection"}
                 style={{
                   borderRadius: "8px",
                   width: "100%",
@@ -130,22 +144,10 @@ const Home = () => {
                   display: "block",
                 }}
               />
-            </a>
-          ) : (
-            <img
-              src={midBanner?.image_url || "/promo/mid-banner.png"}
-              alt={midBanner?.title || "Handcrafted Perfection"}
-              style={{
-                borderRadius: "8px",
-                width: "100%",
-                aspectRatio: "3 / 1",
-                objectFit: "cover",
-                display: "block",
-              }}
-            />
-          )}
-        </div>
-      </section>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Trending Products Slider */}
       <section className="section container">
