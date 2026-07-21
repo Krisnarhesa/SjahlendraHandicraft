@@ -113,18 +113,28 @@ const About = () => {
 
                 <section className="about-store" style={{ marginTop: '60px', marginBottom: '60px' }}>
                     <h2 className="team-title" style={{ textAlign: 'center', marginBottom: '30px', fontSize: '2rem', color: '#4e5837' }}>Our Store</h2>
-                    <div className="store-map-container" style={{ width: '100%', height: '450px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                        <iframe 
-                            src="https://maps.google.com/maps?q=SJAHLENDRA+HANDICRAFT&t=&z=17&ie=UTF8&iwloc=&output=embed" 
-                            width="100%" 
-                            height="100%" 
-                            frameBorder="0" 
-                            style={{ border: 0 }} 
-                            allowFullScreen="" 
-                            aria-hidden="false" 
-                            tabIndex="0"
-                            title="Sjahlendra Handicraft Google Maps"
-                        ></iframe>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+                        <div className="store-image-container" style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                            <img 
+                                src="/about/store-front.jpg" 
+                                alt="Sjahlendra Handicraft Store Front" 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                            />
+                        </div>
+                        <div className="store-map-container" style={{ width: '100%', minHeight: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                            <iframe 
+                                src="https://maps.google.com/maps?q=SJAHLENDRA+HANDICRAFT&t=&z=17&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="100%" 
+                                frameBorder="0" 
+                                style={{ border: 0, minHeight: '400px' }} 
+                                allowFullScreen="" 
+                                aria-hidden="false" 
+                                tabIndex="0"
+                                title="Sjahlendra Handicraft Google Maps"
+                            ></iframe>
+                        </div>
                     </div>
                 </section>
             </div>
