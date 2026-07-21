@@ -70,21 +70,36 @@ const PromoCarousel = () => {
     return () => clearInterval(interval);
   }, [products]);
 
+  const scrollTimeoutRef = useRef(null);
+
   const handleScroll = () => {
     if (!sliderRef.current || products.length <= 1) return;
-    const { scrollLeft, scrollWidth } = sliderRef.current;
-    const third = scrollWidth / 3;
+    
+    // Clear timeout if still scrolling
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
 
-    // Jump seamlessly to keep the scroll position in the middle set
-    if (scrollLeft <= third / 2) {
-      sliderRef.current.style.scrollBehavior = "auto";
-      sliderRef.current.scrollLeft += third;
-      sliderRef.current.style.scrollBehavior = "smooth";
-    } else if (scrollLeft >= third * 2.5) {
-      sliderRef.current.style.scrollBehavior = "auto";
-      sliderRef.current.scrollLeft -= third;
-      sliderRef.current.style.scrollBehavior = "smooth";
-    }
+    // Wait until scrolling stops completely
+    scrollTimeoutRef.current = setTimeout(() => {
+      if (!sliderRef.current) return;
+      
+      const { scrollLeft, scrollWidth } = sliderRef.current;
+      const third = scrollWidth / 3;
+
+      // Jump seamlessly to keep the scroll position in the middle set
+      if (scrollLeft <= third / 2) {
+        sliderRef.current.style.scrollBehavior = "auto";
+        sliderRef.current.scrollLeft += third;
+        setTimeout(() => {
+          if (sliderRef.current) sliderRef.current.style.scrollBehavior = "smooth";
+        }, 50);
+      } else if (scrollLeft >= third * 2.5) {
+        sliderRef.current.style.scrollBehavior = "auto";
+        sliderRef.current.scrollLeft -= third;
+        setTimeout(() => {
+          if (sliderRef.current) sliderRef.current.style.scrollBehavior = "smooth";
+        }, 50);
+      }
+    }, 150);
   };
 
   const scroll = (direction) => {
