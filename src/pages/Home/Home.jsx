@@ -24,8 +24,7 @@ const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [midBanner, setMidBanner] = useState(null);
-  const [lowBanner, setLowBanner] = useState(null);
-  const [homeAboutBg, setHomeAboutBg] = useState(null);
+  const [siteSettings, setSiteSettings] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -82,31 +81,15 @@ const Home = () => {
         setMidBanner(bannerData);
       }
 
-      // Fetch home about background (low banner)
-      const { data: lowBannerData } = await supabase
-        .from("carousel_slides")
-        .select("*")
-        .eq("type", "low_banner")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true })
-        .limit(1)
-        .maybeSingle();
+      // Fetch site settings
+      const { data: settingsData } = await supabase
+        .from("site_settings")
+        .select("*");
       
-      if (lowBannerData) {
-        setLowBanner(lowBannerData);
-        if (lowBannerData.image_url) {
-          setHomeAboutBg(lowBannerData.image_url);
-        }
-      } else {
-        const { data: bgData } = await supabase
-          .from("site_settings")
-          .select("value")
-          .eq("key", "home_about_bg")
-          .maybeSingle();
-        
-        if (bgData && bgData.value) {
-          setHomeAboutBg(bgData.value);
-        }
+      if (settingsData) {
+        const s = {};
+        settingsData.forEach(item => s[item.key] = item.value);
+        setSiteSettings(s);
       }
 
     } catch (error) {
@@ -194,19 +177,19 @@ const Home = () => {
           <div className="about-card">
             <div 
               className="about-card-bg"
-              style={{ backgroundImage: `url(${homeAboutBg || '/hero-new.png'})` }}
+              style={{ backgroundImage: `url(${siteSettings.home_about_bg || '/hero-new.png'})` }}
             />
             <div className="about-content">
-              <h2 className="section-title">{lowBanner?.title || "Rooted in Tradition"}</h2>
+              <h2 className="section-title">{siteSettings.home_about_title || "Rooted in Tradition"}</h2>
               <p>
-                {lowBanner?.description || "Sjahlendra Handicraft was born from a deep respect for Balinese artistry. We partner directly with local artisans to create pieces that tell a story. Every item is handmade using sustainable materials, ensuring that while we beautify your home, we also protect our planet."}
+                {siteSettings.home_about_desc || "Sjahlendra Handicraft was born from a deep respect for Balinese artistry. We partner directly with local artisans to create pieces that tell a story. Every item is handmade using sustainable materials, ensuring that while we beautify your home, we also protect our planet."}
               </p>
               <Link
-                to={lowBanner?.link || "/about"}
+                to={siteSettings.home_about_btn_link || "/about"}
                 className="btn btn-outline"
                 style={{ marginTop: "30px", display: "inline-block" }}
               >
-                {lowBanner?.link_label || "Read Our Story"}
+                {siteSettings.home_about_btn_label || "READ OUR STORY"}
               </Link>
             </div>
           </div>

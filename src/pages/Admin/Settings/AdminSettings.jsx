@@ -13,6 +13,10 @@ const AdminSettings = () => {
     hide_stock: false,
     promo_headline: '',
     home_about_bg: '',
+    home_about_title: '',
+    home_about_desc: '',
+    home_about_btn_label: '',
+    home_about_btn_link: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -200,7 +204,57 @@ const AdminSettings = () => {
         </div>
       </div>
 
-
+      <div className="content-section">
+        <h2>Home Page: "Rooted in Tradition" Section</h2>
+        <div className="form-group flex-col">
+          <label>Background Image</label>
+          <div className="upload-input-group" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <label className="btn btn-outline" style={{ cursor: 'pointer' }}>
+              <Upload size={18} /> Upload Image
+              <input type="file" accept="image/*" onChange={handleBgUpload} style={{ display: 'none' }} />
+            </label>
+            {settings.home_about_bg && (
+              <a href={settings.home_about_bg} target="_blank" rel="noopener noreferrer" className="help-text">View current image</a>
+            )}
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Title</label>
+          <input
+            type="text"
+            value={settings.home_about_title || ''}
+            onChange={(e) => handleChange('home_about_title', e.target.value)}
+            placeholder="Rooted in Tradition"
+          />
+        </div>
+        <div className="form-group">
+          <label>Description</label>
+          <textarea
+            value={settings.home_about_desc || ''}
+            onChange={(e) => handleChange('home_about_desc', e.target.value)}
+            placeholder="Sjahlendra Handicraft was born from a deep respect..."
+            rows="4"
+          />
+        </div>
+        <div className="form-group">
+          <label>Button Label</label>
+          <input
+            type="text"
+            value={settings.home_about_btn_label || ''}
+            onChange={(e) => handleChange('home_about_btn_label', e.target.value)}
+            placeholder="READ OUR STORY"
+          />
+        </div>
+        <div className="form-group">
+          <label>Button Link</label>
+          <input
+            type="text"
+            value={settings.home_about_btn_link || ''}
+            onChange={(e) => handleChange('home_about_btn_link', e.target.value)}
+            placeholder="/about"
+          />
+        </div>
+      </div>
 
       <div className="content-section">
         <h2>Storefront Preferences</h2>
