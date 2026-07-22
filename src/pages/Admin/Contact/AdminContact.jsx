@@ -133,7 +133,7 @@ const AdminContact = () => {
               type="text"
               value={settings.workshop_hours_weekday}
               onChange={(e) => handleChange('workshop_hours_weekday', e.target.value)}
-              placeholder="Mon - Fri: 9am - 8pm"
+              placeholder="Mon - Fri: 9am - 5pm"
             />
           </div>
           <div className="form-group">
@@ -142,7 +142,7 @@ const AdminContact = () => {
               type="text"
               value={settings.workshop_hours_weekend}
               onChange={(e) => handleChange('workshop_hours_weekend', e.target.value)}
-              placeholder="Saturday: 10am - 4pm"
+              placeholder="Saturday: 9am - 5pm"
             />
           </div>
         </div>

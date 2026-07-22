@@ -106,8 +106,8 @@ const Contact = () => {
                             <div className="info-item">
                                 <Clock className="info-icon" />
                                 <div>
-                                    <p>{settings.workshop_hours_weekday || 'Mon - Fri: 9am - 8pm'}</p>
-                                    <p>{settings.workshop_hours_weekend || 'Saturday: 10am - 4pm'}</p>
+                                    <p>{settings.workshop_hours_weekday || 'Mon - Fri: 9am - 5pm'}</p>
+                                    <p>{settings.workshop_hours_weekend || 'Saturday: 9am - 5pm'}</p>
                                 </div>
                             </div>
                         </div>
