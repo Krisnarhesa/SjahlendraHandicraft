@@ -24,6 +24,7 @@ const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [midBanner, setMidBanner] = useState(null);
+  const [lowBanner, setLowBanner] = useState(null);
   const [homeAboutBg, setHomeAboutBg] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -84,15 +85,18 @@ const Home = () => {
       // Fetch home about background (low banner)
       const { data: lowBannerData } = await supabase
         .from("carousel_slides")
-        .select("image_url")
+        .select("*")
         .eq("type", "low_banner")
         .eq("is_active", true)
         .order("sort_order", { ascending: true })
         .limit(1)
         .maybeSingle();
       
-      if (lowBannerData && lowBannerData.image_url) {
-        setHomeAboutBg(lowBannerData.image_url);
+      if (lowBannerData) {
+        setLowBanner(lowBannerData);
+        if (lowBannerData.image_url) {
+          setHomeAboutBg(lowBannerData.image_url);
+        }
       } else {
         const { data: bgData } = await supabase
           .from("site_settings")
@@ -193,20 +197,16 @@ const Home = () => {
               style={{ backgroundImage: `url(${homeAboutBg || '/hero-new.png'})` }}
             />
             <div className="about-content">
-              <h2 className="section-title">Rooted in Tradition</h2>
+              <h2 className="section-title">{lowBanner?.title || "Rooted in Tradition"}</h2>
               <p>
-                Sjahlendra Handicraft was born from a deep respect for Balinese
-                artistry. We partner directly with local artisans to create pieces
-                that tell a story. Every item is handmade using sustainable
-                materials, ensuring that while we beautify your home, we also
-                protect our planet.
+                {lowBanner?.description || "Sjahlendra Handicraft was born from a deep respect for Balinese artistry. We partner directly with local artisans to create pieces that tell a story. Every item is handmade using sustainable materials, ensuring that while we beautify your home, we also protect our planet."}
               </p>
               <Link
-                to="/about"
+                to={lowBanner?.link || "/about"}
                 className="btn btn-outline"
                 style={{ marginTop: "30px", display: "inline-block" }}
               >
-                Read Our Story
+                {lowBanner?.link_label || "Read Our Story"}
               </Link>
             </div>
           </div>
