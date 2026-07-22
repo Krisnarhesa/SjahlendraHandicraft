@@ -85,7 +85,7 @@ const Cart = () => {
               <div className="cart-item-image">
                 <img
                   src={
-                    item.image_url ||
+                    (item.image_url && item.image_url.split(',')[0]) ||
                     "https://placehold.co/100x100/f0f0f0/999?text=No+Image"
                   }
                   alt={item.name}

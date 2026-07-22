@@ -25,8 +25,8 @@ const ProductForm = () => {
     is_hidden: false,
     is_promo: false,
   });
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState('');
+  const [imageFiles, setImageFiles] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(isEditing);
   const [error, setError] = useState('');
@@ -79,7 +79,9 @@ const ProductForm = () => {
           is_hidden: data.is_hidden || false,
           is_promo: data.is_promo || false,
         });
-        setImagePreview(data.image_url || '');
+        if (data.image_url) {
+          setExistingImages(data.image_url.split(',').filter(url => url.trim() !== ''));
+        }
       }
     } catch (err) {
       setError('Product not found.');
@@ -97,35 +99,30 @@ const ProductForm = () => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image size must be less than 5MB');
-        return;
-      }
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
+    const files = Array.from(e.target.files);
+    addFiles(files);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image size must be less than 5MB');
-        return;
-      }
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addFiles(files);
   };
 
-  const removeImage = () => {
-    setImageFile(null);
-    setImagePreview('');
-    setForm(prev => ({ ...prev, image_url: '' }));
-    if (fileInputRef.current) fileInputRef.current.value = '';
+  const addFiles = (files) => {
+    const validFiles = files.filter(f => f.size <= 5 * 1024 * 1024);
+    if (validFiles.length < files.length) {
+      setError('Some images were larger than 5MB and were skipped.');
+    }
+    setImageFiles(prev => [...prev, ...validFiles]);
+  };
+
+  const removeExistingImage = (index) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewImage = (index) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const uploadImage = async (file) => {
@@ -153,25 +150,15 @@ const ProductForm = () => {
     setLoading(true);
 
     try {
-      let imageUrl = form.image_url;
-      const oldImageUrl = form.image_url;
+      let finalImageUrls = [...existingImages];
 
-      // Upload new image if selected
-      if (imageFile) {
-        imageUrl = await uploadImage(imageFile);
-
-        // Auto-delete old image from bucket if it was a Supabase URL
-        if (oldImageUrl && oldImageUrl.includes('/storage/v1/object/public/product/')) {
-          try {
-            const path = oldImageUrl.split('/storage/v1/object/public/product/')[1];
-            if (path) {
-              await supabase.storage.from('product').remove([path]);
-            }
-          } catch (delErr) {
-            console.warn('Could not delete old image:', delErr);
-          }
-        }
+      // Upload new images
+      for (const file of imageFiles) {
+        const url = await uploadImage(file);
+        finalImageUrls.push(url);
       }
+
+      const imageUrl = finalImageUrls.join(',');
 
       const productData = {
         name: form.name?.trim(),
@@ -397,44 +384,45 @@ const ProductForm = () => {
           <div className="form-section">
             <h3>Product Image</h3>
 
-            <div
-              className={`image-upload-area ${imagePreview ? 'has-image' : ''}`}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              onClick={() => !imagePreview && fileInputRef.current?.click()}
-            >
-              {imagePreview ? (
-                <div className="image-preview">
-                  <img src={imagePreview} alt="Preview" />
-                  <button type="button" className="remove-image" onClick={removeImage}>
+            <div className="images-preview-grid">
+              {existingImages.map((url, i) => (
+                <div key={'old-'+i} className="image-preview">
+                  <img src={url} alt={`Existing ${i}`} />
+                  <button type="button" className="remove-image" onClick={() => removeExistingImage(i)}>
                     <X size={16} />
                   </button>
                 </div>
-              ) : (
-                <div className="upload-placeholder">
-                  <Upload size={36} />
-                  <p>Drag & drop an image here, or click to browse</p>
-                  <span>Max 5MB • JPG, PNG, WebP</span>
+              ))}
+              {imageFiles.map((file, i) => (
+                <div key={'new-'+i} className="image-preview">
+                  <img src={URL.createObjectURL(file)} alt={`New ${i}`} />
+                  <button type="button" className="remove-image" onClick={() => removeNewImage(i)}>
+                    <X size={16} />
+                  </button>
                 </div>
-              )}
+              ))}
+            </div>
+
+            <div
+              className={`image-upload-area`}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <div className="upload-placeholder">
+                <Upload size={36} />
+                <p>Drag & drop images here, or click to browse</p>
+                <span>Max 5MB per image • JPG, PNG, WebP</span>
+              </div>
               <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleImageChange}
                 hidden
               />
             </div>
-
-            {imagePreview && (
-              <button
-                type="button"
-                className="change-image-btn"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Change Image
-              </button>
-            )}
           </div>
         </div>
 

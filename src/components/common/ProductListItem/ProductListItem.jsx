@@ -35,13 +35,16 @@ const ProductListItem = ({ product }) => {
         if (product.stock === 0) return <span className="list-stock out">Sold Out</span>;
         if (product.stock <= 5) return <span className="list-stock low">Only {product.stock} left</span>;
         return <span className="list-stock ok">{product.stock} in stock</span>;
+        return <span className="list-stock ok">{product.stock} in stock</span>;
     };
+
+    const imageUrl = product.image_url ? product.image_url.split(',')[0] : (product.image || 'https://placehold.co/300x300/f0f0f0/999?text=No+Image');
 
     return (
         <div className="product-list-item">
             <Link to={`/product/${createSlug(product.name)}`} className="product-list-image-container">
                 <img
-                    src={product.image_url || product.image || 'https://placehold.co/300x300/f0f0f0/999?text=No+Image'}
+                    src={imageUrl}
                     alt={product.name}
                     className="product-list-image"
                     loading="lazy"

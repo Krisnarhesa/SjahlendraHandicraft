@@ -20,6 +20,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   // Contact settings is now part of the global context, but we keep this local state for now
   // or we can refactor to use the global settings
   const [localSettings, setLocalSettings] = useState({ whatsapp_number: "" });
@@ -155,14 +156,30 @@ const ProductDetail = () => {
 
       <div className="product-detail-layout">
         {/* Left: Image */}
-        <div className="product-detail-image">
-          <img
-            src={
-              product.image_url ||
-              "https://placehold.co/800x800/f0f0f0/999?text=No+Image"
-            }
-            alt={product.name}
-          />
+        <div className="product-detail-image-section">
+          <div className="product-detail-image">
+            <img
+              src={
+                product.image_url
+                  ? product.image_url.split(",")[activeImageIndex] || "https://placehold.co/800x800/f0f0f0/999?text=No+Image"
+                  : "https://placehold.co/800x800/f0f0f0/999?text=No+Image"
+              }
+              alt={product.name}
+            />
+          </div>
+          {product.image_url && product.image_url.split(",").length > 1 && (
+            <div className="image-thumbnails">
+              {product.image_url.split(",").map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Thumbnail ${idx}`}
+                  className={`thumbnail ${idx === activeImageIndex ? "active" : ""}`}
+                  onClick={() => setActiveImageIndex(idx)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right: Info */}

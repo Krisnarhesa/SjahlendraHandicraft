@@ -36,7 +36,7 @@ const Footer = () => {
             <div className="container footer-container">
                 <div className="footer-col">
                     <div className="footer-logo-container">
-                        <img src="/logo.png" alt="Sjahlendra Logo" className="footer-logo-img" />
+                        <img src="/logo.svg" alt="Sjahlendra Logo" className="footer-logo-img" />
                         <img src="/logo-text.png" alt="Sjahlendra Handicraft" className="footer-logo-text" />
                     </div>
                     <p className="footer-text">

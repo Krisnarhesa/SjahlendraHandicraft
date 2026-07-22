@@ -160,24 +160,26 @@ const Home = () => {
       </section>
 
       {/* About Preview */}
-      <section className="about-preview section">
+      <section className="about-preview-section section">
         <div className="container">
-          <div className="about-content">
-            <h2 className="section-title">Rooted in Tradition</h2>
-            <p>
-              Sjahlendra Handicraft was born from a deep respect for Balinese
-              artistry. We partner directly with local artisans to create pieces
-              that tell a story. Every item is handmade using sustainable
-              materials, ensuring that while we beautify your home, we also
-              protect our planet.
-            </p>
-            <Link
-              to="/about"
-              className="btn btn-outline"
-              style={{ marginTop: "30px", display: "inline-block" }}
-            >
-              Read Our Story
-            </Link>
+          <div className="about-card">
+            <div className="about-content">
+              <h2 className="section-title">Rooted in Tradition</h2>
+              <p>
+                Sjahlendra Handicraft was born from a deep respect for Balinese
+                artistry. We partner directly with local artisans to create pieces
+                that tell a story. Every item is handmade using sustainable
+                materials, ensuring that while we beautify your home, we also
+                protect our planet.
+              </p>
+              <Link
+                to="/about"
+                className="btn btn-outline"
+                style={{ marginTop: "30px", display: "inline-block" }}
+              >
+                Read Our Story
+              </Link>
+            </div>
           </div>
         </div>
       </section>

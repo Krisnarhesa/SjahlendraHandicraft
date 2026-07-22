@@ -39,11 +39,14 @@ const ProductCard = ({ product }) => {
 
     const stockInfo = getStockInfo();
 
+    const stockInfo = getStockInfo();
+    const imageUrl = product.image_url ? product.image_url.split(',')[0] : (product.image || 'https://placehold.co/400x400/f0f0f0/999?text=No+Image');
+
     return (
         <div className="product-card">
             <Link to={`/product/${createSlug(product.name)}`} className="product-image-container">
                 <img
-                    src={product.image_url || product.image || 'https://placehold.co/400x400/f0f0f0/999?text=No+Image'}
+                    src={imageUrl}
                     alt={product.name}
                     className="product-image"
                     loading="lazy"

@@ -85,7 +85,7 @@ const Contact = () => {
                             <h3>Find us Here</h3>
                             <div className="info-item">
                                 <MapPin className="info-icon" />
-                                <p>{settings.address || 'Nuansa Kori Taman Griya, Jimbaran, Kuta Selatan Bali'}</p>
+                                <p>{settings.address || 'Ubud, Gianyar, Bali'}</p>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@ const Contact = () => {
                             </div>
                             <div className="info-item">
                                 <Mail className="info-icon" />
-                                <p>{settings.email || 'info@sjahlendra.com'}</p>
+                                <p>{settings.email || 'yulishie@yahoo.com'}</p>
                             </div>
                         </div>
 
