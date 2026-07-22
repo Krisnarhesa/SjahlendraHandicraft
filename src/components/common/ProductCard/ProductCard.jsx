@@ -38,8 +38,6 @@ const ProductCard = ({ product }) => {
     };
 
     const stockInfo = getStockInfo();
-
-    const stockInfo = getStockInfo();
     const imageUrl = product.image_url ? product.image_url.split(',')[0] : (product.image || 'https://placehold.co/400x400/f0f0f0/999?text=No+Image');
 
     return (
