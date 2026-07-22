@@ -175,12 +175,10 @@ const Home = () => {
       <section className="about-preview-section section">
         <div className="container">
           <div className="about-card">
-            {homeAboutBg && (
-              <div 
-                className="about-card-bg"
-                style={{ backgroundImage: `url(${homeAboutBg})` }}
-              />
-            )}
+            <div 
+              className="about-card-bg"
+              style={{ backgroundImage: `url(${homeAboutBg || '/hero-new.png'})` }}
+            />
             <div className="about-content">
               <h2 className="section-title">Rooted in Tradition</h2>
               <p>
