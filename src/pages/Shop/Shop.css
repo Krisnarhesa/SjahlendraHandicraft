@@ -154,10 +154,10 @@
     .mobile-filter-toggle {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 0.5rem 1rem;
-        flex: 1;
-        justify-content: center;
+        gap: 6px;
+        padding: 6px 12px;
+        flex: 0 0 auto;
+        font-size: 0.85rem;
     }
 
     .shop-controls {

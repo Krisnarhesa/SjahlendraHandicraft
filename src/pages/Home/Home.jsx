@@ -24,6 +24,7 @@ const Home = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [midBanner, setMidBanner] = useState(null);
+  const [homeAboutBg, setHomeAboutBg] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -78,6 +79,17 @@ const Home = () => {
       
       if (bannerData) {
         setMidBanner(bannerData);
+      }
+
+      // Fetch home about background
+      const { data: bgData } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "home_about_bg")
+        .maybeSingle();
+      
+      if (bgData && bgData.value) {
+        setHomeAboutBg(bgData.value);
       }
 
     } catch (error) {
@@ -163,6 +175,12 @@ const Home = () => {
       <section className="about-preview-section section">
         <div className="container">
           <div className="about-card">
+            {homeAboutBg && (
+              <div 
+                className="about-card-bg"
+                style={{ backgroundImage: `url(${homeAboutBg})` }}
+              />
+            )}
             <div className="about-content">
               <h2 className="section-title">Rooted in Tradition</h2>
               <p>

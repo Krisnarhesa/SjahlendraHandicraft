@@ -1,4 +1,4 @@
-import { AlertCircle, Save } from 'lucide-react';
+import { AlertCircle, Save, Upload } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
 import './AdminSettings.css';
@@ -12,6 +12,7 @@ const AdminSettings = () => {
     hide_price: false,
     hide_stock: false,
     promo_headline: '',
+    home_about_bg: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -69,6 +70,46 @@ const AdminSettings = () => {
 
   const handleChange = (key, value) => {
     setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
+  const uploadImage = async (file) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+    const filePath = `settings/${fileName}`;
+
+    const { error } = await supabase.storage
+      .from('product')
+      .upload(filePath, file);
+
+    if (error) throw error;
+
+    const { data } = supabase.storage
+      .from('product')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  };
+
+  const handleBgUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      setLoading(true);
+      
+      // Delete old image if it exists
+      if (settings.home_about_bg && settings.home_about_bg.includes('/storage/v1/object/public/product/')) {
+        const oldPath = settings.home_about_bg.split('/storage/v1/object/public/product/')[1];
+        if (oldPath) await supabase.storage.from('product').remove([oldPath]);
+      }
+
+      const url = await uploadImage(file);
+      handleChange('home_about_bg', url);
+      setMessage({ type: 'success', text: 'Background image uploaded successfully! Remember to save changes.' });
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Failed to upload image.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) return <div className="loading-state">Loading settings...</div>;
@@ -156,6 +197,27 @@ const AdminSettings = () => {
             placeholder="e.g. Special Promo, New Arrival, Trending"
           />
           <small className="help-text">This text will appear above the circular products on the Home page.</small>
+        </div>
+      </div>
+
+      <div className="content-section">
+        <h2>Home Page: "Rooted in Tradition" Section</h2>
+        <div className="form-group flex-col">
+          <label>Background Image</label>
+          <div className="upload-input-group" style={{ display: 'inline-block' }}>
+            <label className="upload-btn">
+              <Upload size={16} /> Upload Image
+              <input type="file" accept="image/*" onChange={handleBgUpload} hidden />
+            </label>
+          </div>
+          {settings.home_about_bg && (
+            <img 
+              src={settings.home_about_bg} 
+              alt="Background Preview" 
+              className="hero-preview" 
+              style={{ marginTop: '10px', maxWidth: '300px', borderRadius: '8px' }} 
+            />
+          )}
         </div>
       </div>
 
