@@ -270,7 +270,7 @@ const AdminCarousel = () => {
                   <label>Subtitle</label>
                   <input type="text" name="subtitle" value={form.subtitle} onChange={handleChange} placeholder="Subtitle text" />
                 </div>
-                {(activeTab === 'hero' || activeTab === 'mid_banner') && (
+                {(activeTab === 'hero' || activeTab === 'mid_banner' || activeTab === 'low_banner') && (
                   <div className="form-group">
                     <label>Description</label>
                     <textarea name="description" value={form.description} onChange={handleChange} placeholder="Brief description" rows="2" />
