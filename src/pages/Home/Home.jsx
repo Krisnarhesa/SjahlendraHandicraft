@@ -81,15 +81,28 @@ const Home = () => {
         setMidBanner(bannerData);
       }
 
-      // Fetch home about background
-      const { data: bgData } = await supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "home_about_bg")
+      // Fetch home about background (low banner)
+      const { data: lowBannerData } = await supabase
+        .from("carousel_slides")
+        .select("image_url")
+        .eq("type", "low_banner")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true })
+        .limit(1)
         .maybeSingle();
       
-      if (bgData && bgData.value) {
-        setHomeAboutBg(bgData.value);
+      if (lowBannerData && lowBannerData.image_url) {
+        setHomeAboutBg(lowBannerData.image_url);
+      } else {
+        const { data: bgData } = await supabase
+          .from("site_settings")
+          .select("value")
+          .eq("key", "home_about_bg")
+          .maybeSingle();
+        
+        if (bgData && bgData.value) {
+          setHomeAboutBg(bgData.value);
+        }
       }
 
     } catch (error) {

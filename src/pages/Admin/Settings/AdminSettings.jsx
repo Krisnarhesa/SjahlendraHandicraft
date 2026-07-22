@@ -200,26 +200,7 @@ const AdminSettings = () => {
         </div>
       </div>
 
-      <div className="content-section">
-        <h2>Home Page: "Rooted in Tradition" Section</h2>
-        <div className="form-group flex-col">
-          <label>Background Image</label>
-          <div className="upload-input-group" style={{ display: 'inline-block' }}>
-            <label className="upload-btn">
-              <Upload size={16} /> Upload Image
-              <input type="file" accept="image/*" onChange={handleBgUpload} hidden />
-            </label>
-          </div>
-          {settings.home_about_bg && (
-            <img 
-              src={settings.home_about_bg} 
-              alt="Background Preview" 
-              className="hero-preview" 
-              style={{ marginTop: '10px', maxWidth: '300px', borderRadius: '8px' }} 
-            />
-          )}
-        </div>
-      </div>
+
 
       <div className="content-section">
         <h2>Storefront Preferences</h2>

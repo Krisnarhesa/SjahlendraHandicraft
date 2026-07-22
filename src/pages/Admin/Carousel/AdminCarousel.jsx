@@ -247,6 +247,9 @@ const AdminCarousel = () => {
         <button className={`tab ${activeTab === 'mid_banner' ? 'active' : ''}`} onClick={() => setActiveTab('mid_banner')}>
           Mid Banner ({slides.filter(s => s.type === 'mid_banner').length})
         </button>
+        <button className={`tab ${activeTab === 'low_banner' ? 'active' : ''}`} onClick={() => setActiveTab('low_banner')}>
+          Low Banner ({slides.filter(s => s.type === 'low_banner').length})
+        </button>
       </div>
 
       {/* Add/Edit Form */}
