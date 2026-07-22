@@ -66,7 +66,7 @@ const Footer = () => {
                 <div className="footer-col">
                     <h4>Our Social Media</h4>
                     <div className="social-links">
-                        <a href="https://www.instagram.com/sjahlendra_handicraft/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
+                        <a href="https://www.instagram.com/sjahlendrahandicraft?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
                             <Instagram size={20} />
                             <span>Instagram</span>
                         </a>
