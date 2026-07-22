@@ -109,7 +109,7 @@ const Carousel = () => {
             <div className="carousel-content container">
               {isFirst && (
                 <img
-                  src="/logo.png"
+                  src="/logo.svg"
                   alt="Sjahlendra Logo"
                   className="carousel-logo-overlay"
                   height="80"
