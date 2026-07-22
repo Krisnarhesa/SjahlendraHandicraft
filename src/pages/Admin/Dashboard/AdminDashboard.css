@@ -68,62 +68,6 @@
   margin-top: 2px;
 }
 
-.analytics-section {
-  background: #fff;
-  border-radius: 14px;
-  padding: 24px;
-  margin-bottom: 36px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-}
-
-.analytics-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.analytics-header h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin: 0;
-}
-
-.date-range-select {
-  padding: 8px 12px;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: #4b5563;
-  outline: none;
-  background-color: #f9fafb;
-}
-
-.analytics-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-}
-
-.chart-container {
-  width: 100%;
-  background: #f9fafb;
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #f3f4f6;
-}
-
-.chart-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #374151;
-  margin: 0 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .quick-actions h2 {
   font-size: 1.2rem;
   font-weight: 600;
