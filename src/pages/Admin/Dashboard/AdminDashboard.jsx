@@ -1,8 +1,19 @@
-import { FileText, HelpCircle, Package, TrendingUp } from 'lucide-react';
+import { FileText, HelpCircle, Package, TrendingUp, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { supabase } from '../../../lib/supabaseClient';
 import './AdminDashboard.css';
+
+const visitorData = [
+  { name: 'Mon', visitors: 120, pageviews: 240 },
+  { name: 'Tue', visitors: 150, pageviews: 280 },
+  { name: 'Wed', visitors: 180, pageviews: 310 },
+  { name: 'Thu', visitors: 110, pageviews: 220 },
+  { name: 'Fri', visitors: 200, pageviews: 400 },
+  { name: 'Sat', visitors: 250, pageviews: 480 },
+  { name: 'Sun', visitors: 210, pageviews: 390 },
+];
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -66,6 +77,41 @@ const AdminDashboard = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="analytics-section">
+        <div className="analytics-header">
+          <h2>Traffic Overview</h2>
+          <select className="date-range-select">
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+            <option>This Year</option>
+          </select>
+        </div>
+        <div className="chart-container">
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={visitorData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#525633" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#525633" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorPageviews" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#C58970" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#C58970" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} />
+              <Tooltip 
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              />
+              <Area type="monotone" dataKey="pageviews" stroke="#C58970" fillOpacity={1} fill="url(#colorPageviews)" name="Page Views" />
+              <Area type="monotone" dataKey="visitors" stroke="#525633" fillOpacity={1} fill="url(#colorVisitors)" name="Unique Visitors" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="quick-actions">
