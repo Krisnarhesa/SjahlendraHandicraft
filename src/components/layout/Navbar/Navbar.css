@@ -81,14 +81,6 @@
     transform: translateY(-2px);
 }
 
-.navbar.scrolled .nav-links a:last-child {
-    background-color: var(--color-accent, #C58970);
-}
-
-.navbar.scrolled .nav-links a:last-child:hover {
-    background-color: #B57960;
-}
-
 .nav-icons {
     display: flex;
     gap: 20px;
