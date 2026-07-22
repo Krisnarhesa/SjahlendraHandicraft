@@ -85,7 +85,7 @@ const Contact = () => {
                             <h3>Find us Here</h3>
                             <div className="info-item">
                                 <MapPin className="info-icon" />
-                                <p>{settings.address || 'Ubud, Gianyar, Bali'}</p>
+                                <p>{settings.address || 'Jl. Raya Andong, Petulu, Kecamatan Ubud'}</p>
                             </div>
                         </div>
 
