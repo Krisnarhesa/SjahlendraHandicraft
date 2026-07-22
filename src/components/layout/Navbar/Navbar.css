@@ -70,6 +70,25 @@
     transform: translateY(-2px);
 }
 
+.navbar.scrolled .nav-links a {
+    color: white;
+    background-color: #525633;
+}
+
+.navbar.scrolled .nav-links a:hover {
+    background-color: var(--color-accent, #C58970);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.navbar.scrolled .nav-links a:last-child {
+    background-color: var(--color-accent, #C58970);
+}
+
+.navbar.scrolled .nav-links a:last-child:hover {
+    background-color: #B57960;
+}
+
 .nav-icons {
     display: flex;
     gap: 20px;
