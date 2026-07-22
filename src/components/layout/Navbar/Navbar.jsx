@@ -50,7 +50,7 @@ const Navbar = () => {
           <Link to="/products">Shop</Link>
           <Link to="/about">About Us</Link>
           <Link to="/faqs">FAQs</Link>
-          <Link to="/contact" className="nav-btn">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </div>
 
         {/* Icons */}

@@ -59,6 +59,18 @@
     height: 200px;
     background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
     border-radius: 50%;
+    z-index: 0;
+}
+
+.about-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/hero-new.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
 }
 
 .about-card .about-content {
